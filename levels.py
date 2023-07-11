@@ -31,5 +31,5 @@ class Level:
                 self.tile.y = row * TILE_HEIGHT
                 if self.map_1[row][col] == 1:
                     pygame.draw.rect(self.game.screen, (200, 200, 255), self.tile)
-                else:
-                    pygame.draw.rect(self.game.screen, (50, 50, 50), self.tile, 1)
+                # else:
+                #     pygame.draw.rect(self.game.screen, (50, 50, 50), self.tile, 1)

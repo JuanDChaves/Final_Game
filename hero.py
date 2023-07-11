@@ -17,8 +17,18 @@ class Hero:
         self.scroll = 0
         self.shoot_direction = True  # True - Right / False - Left
         self.vertical_speed = 0  # se puede poner de una vez en -10?
+        self.update_time = pygame.time.get_ticks()
+        self.sprite_sheet_image = pygame.image.load(
+            "Final_Game/Sprites/Jump.png"
+        ).convert_alpha()
+        self.sprite_sheet_image_len = self.sprite_sheet_image.get_width()
+        self.frame = 0
+        self.number_of_frames = 0
+        for _ in range(int(self.sprite_sheet_image_len / 200) - 1):
+            self.number_of_frames += 1
+        print("num fr: ", self.number_of_frames)
+        self.black = (0, 0, 0)
         self.hero_rect = pygame.Rect(self.hero_x, self.hero_y, 50, 50)
-        # self.image
 
     def shoot(self):
         self.hero_center_x = self.hero_rect.centerx + self.delta_x
@@ -104,23 +114,38 @@ class Hero:
         if self.hero_rect.bottom + self.delta_y > 450:  # colision temporal
             self.delta_y = 450 - self.hero_rect.bottom
 
-        # Mefalta:
-        # - Hacer que el salto continue si tiene direccion
-        # - Poder saltar solo cuando finalizo el salto anterior
-
         self.hero_x += self.delta_x
         self.hero_y += self.delta_y
-        # return self.scroll
+
+    def load_sprite(self, sheet, frame, width, height, scale, color):
+        image = pygame.Surface((width, height)).convert_alpha()
+        image.blit(sheet, (0, 0), ((frame * width), 0, width, height))
+        image = pygame.transform.scale(image, (width * scale, height * scale))
+        image.set_colorkey(color)
+
+        return image
+
+    def update_animation(self):
+        if pygame.time.get_ticks() - self.update_time > ANIMATION_COOLDOWN:
+            self.update_time = pygame.time.get_ticks()
+            self.frame += 1
+            if self.frame > self.number_of_frames:
+                self.frame = 0
 
     def draw(self, scrolled):
         self.movement(scrolled)
         if self.shooting:
             self.shoot()
+        self.actions()
+        self.update_animation()
+        self.image = self.load_sprite(
+            self.sprite_sheet_image, self.frame, 200, 200, 1.5, (0, 0, 0)
+        )
         self.hero_rect.x = self.hero_x
         self.hero_rect.y = self.hero_y
+
         pygame.draw.rect(self.game.screen, (50, 45, 250), self.hero_rect, 4)
-        self.actions()
-        # self.game.screen.blit(self.rect, (self.x, self.y))
+        self.game.screen.blit(self.image, (self.hero_rect.x, self.hero_rect.y))
 
 
 # for event in pygame.event.get():
