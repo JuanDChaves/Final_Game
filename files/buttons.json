@@ -1,0 +1,27 @@
+{
+  "main": {
+    "play": ["play", [200, 100]],
+    "levels": ["levels", [500, 100]],
+    "settings": ["settings", [200, 300]],
+    "best": ["best", [500, 300]],
+    "about": ["about", [200, 500]],
+    "quit": ["quit", [500, 500]]
+  },
+  "levels": {
+    "level_1": ["level_1", [200, 100]],
+    "level_2": ["level_2", [200, 300]],
+    "level_3": ["level_3", [200, 500]],
+    "back": ["back", [500, 500]]
+  },
+  "settings": {
+    "sound": ["sound", [200, 300]],
+    "music": ["music", [200, 500]],
+    "back": ["back", [500, 500]]
+  },
+  "best": {
+    "back": ["back", [500, 500]]
+  },
+  "about": {
+    "back": ["back", [500, 500]]
+  }
+}
