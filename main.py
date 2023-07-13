@@ -37,7 +37,8 @@ class Game:
 
                 self.current_level.update(scroll)
                 scrolled = self.current_level.scrolled
-                self.hero.draw(scrolled)
+                obstacles = self.current_level.obstacle_list
+                self.hero.draw(scrolled, obstacles)
 
                 self.current_level.draw()
 

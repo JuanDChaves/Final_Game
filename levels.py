@@ -16,12 +16,25 @@ class Level:
         self.tile = pygame.Rect(
             self.tile_init_x, self.tile_init_y, TILE_WIDTH, TILE_HEIGHT
         )
+        self.obstacle_list = self.get_obstacles()
 
     def update(self, scroll):
         self.tile_init_x += scroll
         self.scrolled = -self.tile_init_x
         if self.scrolled <= 0 or self.scrolled >= 1600:
             self.tile_init_x -= scroll
+
+    def get_obstacles(self):
+        obstacles_list = []
+        self.map_1 = self.maps.map_1()
+        for row in range(TILE_ROWS):
+            for col in range(TILE_COLUMNS):
+                self.tile.x = col * TILE_WIDTH + self.tile_init_x
+                self.tile.y = row * TILE_HEIGHT
+                if self.map_1[row][col] == 1:
+                    obstacles_list.append((self.tile.x, self.tile.y))
+
+        return obstacles_list
 
     def draw(self):
         self.map_1 = self.maps.map_1()
@@ -30,6 +43,7 @@ class Level:
                 self.tile.x = col * TILE_WIDTH + self.tile_init_x
                 self.tile.y = row * TILE_HEIGHT
                 if self.map_1[row][col] == 1:
-                    pygame.draw.rect(self.game.screen, (200, 200, 255), self.tile)
+                    pygame.draw.rect(self.game.screen, (200, 200, 255), self.tile, 1)
+
                 # else:
                 #     pygame.draw.rect(self.game.screen, (50, 50, 50), self.tile, 1)
